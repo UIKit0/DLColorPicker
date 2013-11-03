@@ -10,7 +10,7 @@
 
 #import "DLCPPickerController+Protected.h"
 
-@interface DLCPPickerController() <UITextFieldDelegate>
+@interface DLCPPickerController() <UITextFieldDelegate, UIGestureRecognizerDelegate>
 
 @property (readwrite, strong, nonatomic) UITapGestureRecognizer *tapGestureRecognizer;
 
@@ -43,6 +43,12 @@
 }
 
 - (BOOL)commonPickerControllerInit {
+	_tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBackgroundView:)];
+	[_tapGestureRecognizer setNumberOfTapsRequired:1];
+	_tapGestureRecognizer.delegate = self;
+	
+	_backgroundTapBehaviour = DLCPPickerControllerBackgroundTapBehaviourFinish;
+	
 	UIColor *defaultColor = [[self class] defaultColor];
 	_sourceColor = defaultColor;
 	
@@ -62,6 +68,32 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
+	
+	self.view.userInteractionEnabled = YES;
+	self.view.multipleTouchEnabled = NO;
+	[self.view addGestureRecognizer:self.tapGestureRecognizer];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+	return touch.view == self.view;
+}
+
+- (void)didTapBackgroundView:(UITapGestureRecognizer *)tapGestureRecognizer {
+	DLCPPickerControllerBackgroundTapBehaviour behaviour = self.backgroundTapBehaviour;
+	switch (behaviour) {
+		case DLCPPickerControllerBackgroundTapBehaviourCancel: {
+			[self.delegate colorPickerControllerDidCancel:self];
+			break;
+		}
+		case DLCPPickerControllerBackgroundTapBehaviourFinish: {
+			[self.delegate colorPickerController:self didFinishWithColor:self.resultColor];
+			break;
+		}
+		case DLCPPickerControllerBackgroundTapBehaviourIgnore:
+		default: {
+			break;
+		}
+	}
 }
 
 - (IBAction)finishColorPicker:(id)sender {

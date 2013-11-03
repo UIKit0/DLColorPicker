@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, DLCPPickerControllerBackgroundTapBehaviour) {
+	DLCPPickerControllerBackgroundTapBehaviourIgnore,
+	DLCPPickerControllerBackgroundTapBehaviourCancel,
+	DLCPPickerControllerBackgroundTapBehaviourFinish
+};
+
 @class DLCPPickerController;
 
 @protocol DLCPPickerControllerDelegate
@@ -28,6 +34,7 @@
 @property (readwrite, strong, nonatomic) UIColor *resultColor;
 
 @property (readwrite, weak, nonatomic) id<DLCPPickerControllerDelegate> delegate;
+@property (readwrite, assign, nonatomic) DLCPPickerControllerBackgroundTapBehaviour backgroundTapBehaviour;
 
 // Calls the delegate's `colorPickerController:didFinishWithColor:` method.
 // The delegate is responsible for actually hiding the controller
