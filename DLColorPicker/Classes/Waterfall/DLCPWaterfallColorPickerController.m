@@ -7,23 +7,7 @@
 //
 
 #import "DLCPWaterfallColorPickerController.h"
-
-#import "DLCPPickerController+Protected.h"
-
-#import "DLCPHexPicker.h"
-#import "DLCPHueSaturationPicker.h"
-#import "DLCPBrightnessPicker.h"
-#import "DLCPAlphaPicker.h"
-
-@interface DLCPWaterfallColorPickerController () <UITextFieldDelegate>
-
-@property(readwrite, strong, nonatomic) IBOutlet DLCPHexPicker *beforePicker;
-@property(readwrite, strong, nonatomic) IBOutlet DLCPHexPicker *afterPicker;
-@property(readwrite, strong, nonatomic) IBOutlet DLCPHueSaturationPicker *hueSaturationPicker;
-@property(readwrite, strong, nonatomic) IBOutlet DLCPBrightnessPicker *brightnessPicker;
-@property(readwrite, strong, nonatomic) IBOutlet DLCPAlphaPicker *alphaPicker;
-
-@end
+#import "DLCPWaterfallColorPickerController+Protected.h"
 
 @implementation DLCPWaterfallColorPickerController
 
@@ -33,11 +17,10 @@
 	self.beforePicker.editable = NO;
 	
 	self.beforePicker.color = self.sourceColor;
-	self.afterPicker.color = self.resultColor;
-	CGFloat hue, saturation, brightness, alpha;
-	[self.sourceColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
-	self.hueSaturationPicker.hue = hue;
-	self.hueSaturationPicker.saturation = saturation;
+	UIColor *resultColor = self.resultColor;
+	self.afterPicker.color = resultColor;
+	CGFloat brightness, alpha;
+	[self.sourceColor getHue:NULL saturation:NULL brightness:&brightness alpha:&alpha];
 	self.brightnessPicker.brightness = brightness;
 	self.alphaPicker.alpha = alpha;
 	

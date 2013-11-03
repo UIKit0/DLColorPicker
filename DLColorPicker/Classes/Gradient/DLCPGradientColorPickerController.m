@@ -7,23 +7,7 @@
 //
 
 #import "DLCPGradientColorPickerController.h"
-
-#import "DLCPPickerController+Protected.h"
-
-#import "DLCPHexPicker.h"
-#import "DLCPSaturationBrightnessPicker.h"
-#import "DLCPHuePicker.h"
-#import "DLCPAlphaPicker.h"
-
-@interface DLCPGradientColorPickerController () <UITextFieldDelegate>
-
-@property(readwrite, strong, nonatomic) IBOutlet DLCPHexPicker *beforePicker;
-@property(readwrite, strong, nonatomic) IBOutlet DLCPHexPicker *afterPicker;
-@property(readwrite, strong, nonatomic) IBOutlet DLCPSaturationBrightnessPicker *saturationBrightnessPicker;
-@property(readwrite, strong, nonatomic) IBOutlet DLCPHuePicker *huePicker;
-@property(readwrite, strong, nonatomic) IBOutlet DLCPAlphaPicker *alphaPicker;
-
-@end
+#import "DLCPGradientColorPickerController+Protected.h"
 
 @implementation DLCPGradientColorPickerController
 
@@ -33,11 +17,11 @@
 	self.beforePicker.editable = NO;
 	
 	self.beforePicker.color = self.sourceColor;
-	self.afterPicker.color = self.resultColor;
-	CGFloat hue, saturation, brightness, alpha;
-	[self.sourceColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
-	self.saturationBrightnessPicker.saturation = saturation;
-	self.saturationBrightnessPicker.brightness = brightness;
+	UIColor *resultColor = self.resultColor;
+	self.afterPicker.color = resultColor;
+	self.saturationBrightnessPicker.color = resultColor;
+	CGFloat hue, alpha;
+	[resultColor getHue:&hue saturation:NULL brightness:NULL alpha:&alpha];
 	self.huePicker.hue = hue;
 	self.alphaPicker.alpha = alpha;
 	
