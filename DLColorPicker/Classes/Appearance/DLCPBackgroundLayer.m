@@ -13,8 +13,8 @@
 + (instancetype)layer {
 	DLCPBackgroundLayer *layer = [super layer];
 	
-	layer.borderColor = [UIColor whiteColor].CGColor;
-	layer.borderWidth = 2.0;
+	layer.borderColor = [UIColor colorWithWhite:1.0 alpha:0.75].CGColor;
+	layer.borderWidth = 1.5;
 
 	layer.shadowColor = [UIColor blackColor].CGColor;
 	layer.shadowOffset = CGSizeMake(0.0, 1.0);
